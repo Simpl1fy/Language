@@ -1,6 +1,6 @@
 pandas
-re
 numpy
 matplotlib
 seaborn
-sklearn
+scikit-learn
+pickle-mixin
