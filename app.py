@@ -4,6 +4,9 @@
 from flask import Flask, request, render_template, url_for
 import pickle
 
+# Importing important function
+from src.components.input_processing import input_preprocessing
+
 # Importing the model
 model = pickle.load(open('model/model.pkl', 'rb'))
 
@@ -18,7 +21,8 @@ def home():
 def form():
     if request.method == 'POST':
         input = request.form.get('input')
-    return render_template('result.html', input=input)
+
+    return render_template('result.html', input=new_text)
     
 
 
