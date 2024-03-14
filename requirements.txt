@@ -4,3 +4,5 @@ matplotlib
 seaborn
 scikit-learn
 pickle-mixin
+flask
+--no-warn-script-location

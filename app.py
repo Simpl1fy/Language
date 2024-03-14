@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, url_for
 import pickle
 
 # Importing the model
-model = pickle.load(open('models/model.pkl', 'rb'))
+model = pickle.load(open('model/model.pkl', 'rb'))
 
 # Creating a Flask object
 app = Flask(__name__)
