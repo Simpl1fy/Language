@@ -6,3 +6,4 @@ def bag_of_words(text):
     cv = CountVectorizer()
     text_vectorized = cv.fit_transform(text).toarray()
     return text_vectorized
+

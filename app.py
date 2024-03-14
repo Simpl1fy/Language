@@ -21,7 +21,7 @@ def home():
 def form():
     if request.method == 'POST':
         input = request.form.get('input')
-        new_text = input_preprocessing(input)
+
     return render_template('result.html', input=new_text)
     
 
