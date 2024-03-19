@@ -1,5 +1,0 @@
-[ 2024-03-15 20:33:41,684 ] 24 root - INFO - Initiating Data Ingestion
-[ 2024-03-15 20:33:41,822 ] 27 root - INFO - Read the csv file as a dataframe
-[ 2024-03-15 20:33:41,822 ] 30 root - INFO - Created a directory with the name artifacts
-[ 2024-03-15 20:33:41,956 ] 34 root - INFO - Train test split initiated
-[ 2024-03-15 20:33:42,084 ] 40 root - INFO - ingestion of data is completed
