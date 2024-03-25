@@ -15,7 +15,8 @@ class Remove(BaseEstimator, TransformerMixin):
         text_list = []
         for text in X:
             text = re.sub(r'[!@#$(),n%^&*?:;~`0-9]]', ' ', text)
-            text = re.sub(r'[[]]', ' ', text)
+            text = text.replace("[", "")
+            text = text.replace("]", "")
             text = text.lower()
             text_list.append(text)
         return text_list
@@ -34,7 +35,7 @@ class Vectorizer(BaseEstimator, TransformerMixin):
 def save_object(file_path, obj):
     try:
         dir_path = os.path.dirname(file_path)
-        os.makedirs(dir_path, existOk=True)
+        os.makedirs(dir_path, exist_ok=True)
         logging.info("Creating directories")
         with open(file_path, 'wb') as file_obj:
             pickle.dump(obj, file_obj)

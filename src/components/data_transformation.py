@@ -66,8 +66,8 @@ class DataTransformation:
 
             input_processing, label_encoder = self.get_data_transformer_object()
 
-            print(train_data.head())
-            print(test_data.head())
+            # print(train_data.head())
+            # print(test_data.head())
 
             input_feature_train_df = train_data.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_data[target_column_name]
@@ -83,17 +83,16 @@ class DataTransformation:
             target_feature_train_arr = np.array(label_encoder.fit_transform(target_feature_train_df))
             target_feature_test_arr = np.array(label_encoder.transform(target_feature_test_df))
 
-            train_arr = np.c_[input_feature_train_arr, target_feature_train_arr]
-            test_arr = np.c_[input_feature_test_arr, target_feature_test_arr]
-
             save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=input_processing
             )             
 
             return (
-                train_arr,
-                test_arr
+                input_feature_train_arr,
+                target_feature_train_arr,
+                input_feature_test_arr,
+                target_feature_test_arr
             )
 
         except Exception as e:
