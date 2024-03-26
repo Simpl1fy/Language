@@ -18,6 +18,7 @@ import pickle
 @dataclass
 class DataTransformationConfig:
     preprocessor_obj_file_path = os.path.join('artifacts', 'preprocessor.pkl')
+    target_processor_obj_file_path = os.path.join('artifacts', 'target_processor.pkl')
 
 
 class DataTransformation:
@@ -31,21 +32,17 @@ class DataTransformation:
 
        try:
         input_cols = ['Text']
+        target_cols = ['Language']
 
         input_pipeline = Pipeline([
             ("remove", Remove()),
             ("vectorizer", Vectorizer())
         ])
 
-        preprocessor = ColumnTransformer(
-            [
-                ("input-pipeline", input_pipeline, input_cols)
-            ]
-        )
-
         le = LabelEncoder()
+        
 
-        return (preprocessor, le)
+        return (input_pipeline, le)
 
        except Exception as e:
            raise CustomException(e, sys)
@@ -87,6 +84,11 @@ class DataTransformation:
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=input_processing
             )             
+
+            save_object(
+                file_path = self.data_transformation_config.target_processor_obj_file_path,
+                obj=label_encoder
+            )
 
             return (
                 input_feature_train_arr,
