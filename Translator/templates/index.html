@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translation</title>
+</head>
+<body>
+    <form action="/translate_lang" method="POST">
+        <input type="text" name="sentence" placeholder="Enter the sentence">
+        <select name="code">
+            {% for language in languages %}
+                <option value="{{ language.code }}">{{ language.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Translate</button>
+    </form>
+</body>
+</html>
