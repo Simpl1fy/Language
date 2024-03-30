@@ -57,7 +57,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models):
             # Fitting the model
             model.fit(X_train, y_train)
 
-            y_test_pred = model.predict(X_test, y_test)
+            y_test_pred = model.predict(X_test)
 
             y_test_score = f1_score(y_test, y_test_pred)
 

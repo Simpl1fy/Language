@@ -66,8 +66,6 @@ class DataTransformation:
 
             input_feature_train_arr = input.fit_transform(input_feature_train_df)
             input_feature_test_arr = input.transform(input_feature_test_df)
-            print("Shape of input train array = {}".format(input_feature_train_arr.shape))
-            print("Shape of input test array = {}".format(input_feature_test_arr.shape))
 
             target_feature_train_arr = np.array(output.fit_transform(target_feature_train_df))
             target_feature_test_arr = np.array(output.transform(target_feature_test_df))
@@ -82,11 +80,12 @@ class DataTransformation:
                 obj=output
             )
 
+            train_arr = np.c_[input_feature_train_arr, target_feature_train_arr]
+            test_arr = np.c_[input_feature_test_arr, target_feature_test_arr]
+
             return (
-                input_feature_train_arr,
-                target_feature_train_arr,
-                input_feature_test_arr,
-                target_feature_test_arr
+                train_arr,
+                test_arr
             )
 
         except Exception as e:

@@ -18,54 +18,40 @@ class ModelTrainer:
         self.model_trainer_config = ModelTrainerConfig()
 
 
-    def initiate_model_trainer(self, input_train, target_train, input_test, target_test):
+    def initiate_model_trainer(self, train_arr, test_arr):
         '''
             This function is responsible for training different models and finding the result
         '''
         try:
             logging.info("Initiated model trainer")
-            
-            models = {
-                "Multinomial Naive Bayes": MultinomialNB(),
-                "Decision Tree Classifier": DecisionTreeClassifier()
-            }
+            X_train, X_test, y_train, y_test = (
+                train_arr[:, :-1],
+                test_arr[:, :-1],
+                train_arr[:, -1],
+                test_arr[:, -1]
+            )
+
+            model = MultinomialNB()
 
             logging.info("Initialized models")
-        #     
-        #     model_report:dict = evaluate_models(X_train=input_train, y_train=target_train, X_test=input_test, y_test=target_test, models=models)
-        #
-        #     logging.info("Called the evaluate_models function")
-        #     best_model_score = max(sorted(model_report.values()))
-        #     
-        #     logging.info('got the best model score')
-        #
-        #     best_model_name = list(model_report.keys())[
-        #         list(model_report.values().index(best_model_score))
-        #     ]
-        #     logging.info('got the best model name')
-        #
-        #     best_model = models[best_model_name]
-        #     logging.info("created the best model object")
-        #
-        #     if best_model_score < 0.6:
-        #         raise CustomException('No best model found!')
-        #
-        #     logging.info('best model found for training and testing datasets')
-        #
-        #     save_object(
-        #         file_path=self.model_trainer_config.model_file_path,
-        #         obj=best_model
-        #     )
-        #
-        #     logging.info('saved the model.pkl in artifacts folder')
-        #
-        #     predicted = best_model.predict(input_test)
-        #     logging.info('got a predicted value for test array')
-        #
-        #     logging.info('calculating the f1_score')
-        #     score = f1_score(target_test, predicted)
-        #
-        #     logging.info('calculated the f1_score and returning it')
-        #     return score
+            
+            model.fit(X_train, y_train)
+
+            y_test_pred = model.predict(X_test)
+        
+            save_object(
+                file_path=self.model_trainer_config.model_file_path,
+                obj=model
+            )
+        
+            logging.info('saved the model.pkl in artifacts folder')
+        
+            
+        
+            logging.info('calculating the f1_score')
+            score = f1_score(y_test, y_test_pred)
+        
+            logging.info('calculated the f1_score and returning it')
+            return score
         except Exception as e:
             raise CustomException(e, sys)
