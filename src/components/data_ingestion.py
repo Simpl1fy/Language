@@ -62,9 +62,9 @@ if __name__ == "__main__":
     data_transformation = DataTransformation()
     input_train, target_train, input_test, target_test= data_transformation.initiate_data_transformation(train_data, test_data)
 
-    print(input_train.shape)
+    # print(input_train.shape)
     print(target_train.shape)
-    print(input_test.shape)
+    # print(input_test.shape)
     print(target_test.shape)
     # model_trainer = ModelTrainer()
     # f1_score = model_trainer.initiate_model_trainer(input_train, target_train, input_test, target_test)

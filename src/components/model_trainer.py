@@ -31,10 +31,6 @@ class ModelTrainer:
             }
 
             logging.info("Initialized models")
-            print(input_train.shape)
-            print(target_train.shape)
-            print(input_test.shape)
-            print(target_test.shape)
         #     
         #     model_report:dict = evaluate_models(X_train=input_train, y_train=target_train, X_test=input_test, y_test=target_test, models=models)
         #

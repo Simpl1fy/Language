@@ -2,6 +2,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.base import BaseEstimator, TransformerMixin
 import re
 import os
+import numpy as np
 import pickle
 import sys
 from src.logger import logging
@@ -14,8 +15,9 @@ class Remove(BaseEstimator, TransformerMixin):
     
     def transform(self, X):
         text_list = []
-        for text in X:
-            text = re.sub(r'[!@#$(),n%^&*?:;~`0-9]]', ' ', text)
+        for _,row in X.iterrows():
+            text = row['Text']
+            text = re.sub(r'[!@#$(),n%^&*?:;~`0-9]', ' ', text)
             text = text.replace("[", "")
             text = text.replace("]", "")
             text = text.lower()
@@ -23,14 +25,14 @@ class Remove(BaseEstimator, TransformerMixin):
         return text_list
 
 
+
 class Vectorizer(BaseEstimator, TransformerMixin):
     def fit(self, X):
         return self
-    
     def transform(self, X):
         cv = CountVectorizer()
-        bow = cv.fit_transform(X).toarray()
-        return bow
+        x = cv.fit_transform(X).toarray()
+        return x
     
 
 def save_object(file_path, obj):
