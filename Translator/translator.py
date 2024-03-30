@@ -28,7 +28,22 @@ def index():
         {"name": "Hindi", "code": "hi"},
         {"name": "English", "code": "en"},
         {"name": "Korean", "code": "ko"},
-        {"name": "Japanese", "code": "ja"}
+        {"name": "Japanese", "code": "ja"},
+        {"name": "Armenian", "code": "hy"},
+        {"name": "German", "code": "de"},
+        {"name": "Filipino", "code": "tl"},
+        {"name": "Russian", "code": "ru"},
+        {"name": "Vietnamese", "code": "vi"},
+        {"name": "Spanish", "code": "es"},
+        {"name": "Thai", "code": "th"},
+        {"name": "Turkish", "code": "tr"},
+        {"name": "Urdu", "code": "ur"},
+        {"name": "Punjabi", "code": "pa"},
+        {"name": "Portguese", "code": "pt"},
+        {"name": "Polish", "code": "pl"},
+        {"name": "Persian", "code": "fa"},
+        {"name": "Odia", "code": "or"},
+        {"name": "Nepali", "code": "ne"}
     ]
     
     return render_template("index.html", languages=languages)
