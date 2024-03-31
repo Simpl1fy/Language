@@ -4,16 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Translation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #24a1a5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.507);
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #f5f2f2;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <form action="/translate_lang" method="POST">
-        <input type="text" name="sentence" placeholder="Enter the sentence">
-        <select name="code">
-            {% for language in languages %}
-                <option value="{{ language.code }}">{{ language.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Translate</button>
-    </form>
+    <div class="container">
+        <h2>Language Translation</h2>
+        <form action="/translate_lang" method="POST">
+            <input type="text" name="sentence" placeholder="Enter the sentence">
+            <select name="code">
+                {% for language in languages %}
+                    <option value="{{ language.code }}">{{ language.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Translate</button>
+        </form>
+    </div>
 </body>
 </html>
