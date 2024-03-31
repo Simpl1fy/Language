@@ -6,15 +6,10 @@
     <title>Text</title>
 </head>
 <body>
-    <form action="/form" method="post">
+    <form action="{{ url_for('predictlanguage') }}" method="post">
         <label for="text">Enter your text</label>
-        <input type="text" name="input" id="text"> <br>
+        <input type="text" name="text" id="text"> <br>
         <input type="submit" value="Detect Language">
     </form>
-
-
-    <div>
-        {{ input_text }}
-    </div>
 </body>
 </html>

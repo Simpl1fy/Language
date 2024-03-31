@@ -10,7 +10,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import f1_score
 
 class ModelTrainerConfig:
-    model_file_path = os.path.join('artifacts', 'model,pkl')
+    model_file_path = os.path.join('artifacts', 'model.pkl')
 
 
 class ModelTrainer:

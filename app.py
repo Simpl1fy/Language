@@ -3,27 +3,32 @@
 # Importing necessary libraries
 from flask import Flask, request, render_template, url_for
 import pickle
+from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
-# Importing important function
-from src.components.input_processing import input_preprocessing
-
-# Importing the model
-model = pickle.load(open('model/model.pkl', 'rb'))
 
 # Creating a Flask object
 app = Flask(__name__)
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
-@app.route('/form', methods=['POST','GET'])
-def form():
-    if request.method == 'POST':
-        input = request.form.get('input')
-        
-    return render_template('result.html', input=input)
-    
+@app.route('/predictlanguage', methods=['POST','GET'])
+def predictlanguage():
+    if request.method == 'GET':
+        return render_template('result.html')
+    else:
+        data = CustomData(text=request.form.get('text'))
+        df = data.get_data_as_dataframe()
+        print(df)
+        print('Before Prediction')
+        predict_pipeline = PredictPipeline()
+        print("Mid Prediction")
+        result = predict_pipeline.predict(df)
+        output = result[0]
+        print('Prediction Completed')
+        print(output)
+        return render_template('result.html', language=output)
 
 
 
