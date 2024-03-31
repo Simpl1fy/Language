@@ -7,6 +7,7 @@ from src.utils import Remove, Vectorizer, save_object
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
 
 
 from dataclasses import dataclass
@@ -37,13 +38,12 @@ class DataTransformation:
         )
 
 
-    def initiate_data_transformation(self, train_path, test_path):
+    def initiate_data_transformation(self, raw_data_path):
         '''
            this function is used for initiating the data transformation 
         '''
         try:
-            train_data = pd.read_csv(train_path)
-            test_data = pd.read_csv(test_path)
+            raw_data = pd.read_csv(raw_data_path)
             logging.info("Reading the data as csv from the function parameters")
 
             target_column_name = "Language"
@@ -53,22 +53,15 @@ class DataTransformation:
             input, output = self.get_data_transformation_object()
 
 
-            input_feature_train_df = train_data.drop(columns=[target_column_name], axis=1)
-            target_feature_train_df = train_data[target_column_name]
-
-            input_feature_test_df = test_data.drop(columns=[target_column_name], axis=1)
-            target_feature_test_df = test_data[target_column_name]
-            
-            logging.info('Divided the data into X_train, y_train, X_test, y_test')
+            X = raw_data.drop([target_column_name], axis=1)
+            y = raw_data[target_column_name]
+            logging.info('Divided the data into input and output df')
 
 
-            logging.info("Applying the processor objects in training and testing dataset")
+            logging.info("Applying the preprocessor")
 
-            input_feature_train_arr = input.fit_transform(input_feature_train_df)
-            input_feature_test_arr = input.transform(input_feature_test_df)
-
-            target_feature_train_arr = np.array(output.fit_transform(target_feature_train_df))
-            target_feature_test_arr = np.array(output.transform(target_feature_test_df))
+            X_vectorized = input.fit_transform(X)
+            y_encoder = output.fit_transform(y)
 
             save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
@@ -80,12 +73,14 @@ class DataTransformation:
                 obj=output
             )
 
-            train_arr = np.c_[input_feature_train_arr, target_feature_train_arr]
-            test_arr = np.c_[input_feature_test_arr, target_feature_test_arr]
-
+            data = np.c_[X_vectorized, np.array(y_encoder)]
+            logging.info('Dividing the data into train and test array')
+            train_data, test_data = train_test_split(data, test_size=0.2)
+            logging.info('Division Completed')
+            logging.info('Returning the train array and testing array')
             return (
-                train_arr,
-                test_arr
+                train_data,
+                test_data
             )
 
         except Exception as e:

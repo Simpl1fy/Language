@@ -24,20 +24,22 @@ class ModelTrainer:
         '''
         try:
             logging.info("Initiated model trainer")
-            X_train, X_test, y_train, y_test = (
+            logging.info('Converting the data into training and testing data')
+            X_train, y_train, X_test, y_test = (
                 train_arr[:, :-1],
-                test_arr[:, :-1],
                 train_arr[:, -1],
+                test_arr[:, :-1],
                 test_arr[:, -1]
             )
-
             model = MultinomialNB()
 
             logging.info("Initialized models")
             
             model.fit(X_train, y_train)
+            logging.info('Fitted the model with X_train and y_train')
 
             y_test_pred = model.predict(X_test)
+            logging.info('Predicting on X_test')
         
             save_object(
                 file_path=self.model_trainer_config.model_file_path,
@@ -49,7 +51,7 @@ class ModelTrainer:
             
         
             logging.info('calculating the f1_score')
-            score = f1_score(y_test, y_test_pred)
+            score = f1_score(y_test, y_test_pred, average='micro')
         
             logging.info('calculated the f1_score and returning it')
             return score
