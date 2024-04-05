@@ -14,7 +14,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
-import pickle
+import re
 
 @dataclass
 class DataTransformationConfig:
@@ -26,9 +26,19 @@ class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
     
+    def remove_char(self, X):
+        text_list = []
+        for _,row in X.iterrows():
+            text = row['Text']
+            text = re.sub(r'[!@#$(),n%^&*?:;~`0-9]', ' ', text)
+            text = text.replace("[", "")
+            text = text.replace("]", "")
+            text = text.lower()
+            text_list.append(text)
+        return text_list
+    
     def get_data_transformation_object(self):
         input_pipeline = Pipeline([
-               ("remover", Remove()),
                ("vectorizer", Vectorizer())
         ])
         le = LabelEncoder()
@@ -57,7 +67,9 @@ class DataTransformation:
             y = raw_data[target_column_name]
             logging.info('Divided the data into input and output df')
 
-
+            logging.info('Removing characters')
+            X = self.remove_char(X)
+            logging.info('Removed the characters and converted into list')
             logging.info("Applying the preprocessor")
 
             X_vectorized = input.fit_transform(X)
