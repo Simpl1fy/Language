@@ -25,7 +25,7 @@ class PredictPipeline:
             print('After Loading')
 
             logging.info(f'Shape of feature before changing is {features}')
-            data_scaled = input_processor.transform(features)
+            data_scaled = input_processor.transform(features).toarray()
             print(data_scaled)
             logging.info(f'Shape of scaled data is {data_scaled.shape}')
 

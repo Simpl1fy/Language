@@ -3,7 +3,7 @@ import os
 
 from src.logger import logging
 from src.exception import CustomException
-from src.utils import Remove, Vectorizer, save_object
+from src.utils import save_object
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer
@@ -38,12 +38,10 @@ class DataTransformation:
         return text_list
     
     def get_data_transformation_object(self):
-        input_pipeline = Pipeline([
-               ("vectorizer", Vectorizer())
-        ])
+        cv = CountVectorizer()
         le = LabelEncoder()
         return (
-            input_pipeline,
+            cv,
             le
         )
 
@@ -72,7 +70,7 @@ class DataTransformation:
             logging.info('Removed the characters and converted into list')
             logging.info("Applying the preprocessor")
 
-            X_vectorized = input.fit_transform(X)
+            X_vectorized = input.fit_transform(X).toarray()
             y_encoder = output.fit_transform(y)
 
             save_object(
