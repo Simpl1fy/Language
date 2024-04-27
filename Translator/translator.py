@@ -1,8 +1,10 @@
 from flask import Flask, request, render_template
 from googletrans import Translator
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'arkajit'
+WORDNIK_API_KEY = 'your_wordnik_api_key_here'  # Replace this with your Wordnik API key
 
 @app.route("/translate_lang", methods=["POST"])
 def translate_lang():
@@ -13,8 +15,33 @@ def translate_lang():
         translator = Translator()
         translation = translator.translate(sentence, dest=code)
         translated_text = translation.text
+
+        meaning = get_sentence_meaning(sentence)
         
-        return render_template("translation_result.html", language_selected=code, sentence=sentence, translated_res=translated_text)
+        return render_template("translation_result.html", language_selected=code, sentence=sentence, translated_res=translated_text, sentence_meaning=meaning)
+
+def get_sentence_meaning(sentence):
+    url = 'https://api.wordnik.com/v4/word.json/{}/definitions'
+    params = {'api_key': 'b3uphyeo9o7fh2o0fo8379zg1tl7tw8vgzvscjid7qw8xj9l2'}
+    words = sentence.split()  # Split sentence into individual words
+    meanings = []
+
+    for word in words:
+        # Send API request for each word
+        response = requests.get(url.format(word), params=params)
+        if response.status_code == 200:
+            definitions = response.json()
+            if definitions:
+                meanings.append(f"{word}: {definitions[0]['text']}")
+            else:
+                meanings.append(f"{word}: Meaning not found")
+        else:
+            meanings.append(f"{word}: Error in fetching meaning")
+
+    # Combine the meanings for each word
+    return "\n".join(meanings)
+
+
 
 @app.route("/")
 def index():
